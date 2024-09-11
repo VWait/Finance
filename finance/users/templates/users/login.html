@@ -1,17 +1,41 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<main>
-    <form method="post">
+<main class="d-flex justify-content-center">
+    <form method="post" class="p-3 m-3 border">
         {% csrf_token %}
-        <table>
-            {{ form }}
-            <tr>
-                <th>
-                    <input type="submit" value="Зарегистрироваться">
-                </th>
-            </tr>
-        </table>
+        {% for field in form %}
+        <div class="mb-3">
+            <div class="form-floating">
+                <input
+                        class="form-control {% if field.errors %}is-invalid{% endif %}"
+                        type="{{ field.field.widget.input_type }}"
+                        name="{{ field.html_name }}"
+                        id="{{ field.id_for_label }}"
+                        placeholder=""
+                        required
+                >
+                <label for="{{ field.id_for_label }}">
+                    {% if field.errors %}
+                    {{ field.errors.0 }}
+                    {% else %}
+                    {{ field.label }}
+                    {% endif %}
+                </label>
+            </div>
+            <div class="form-text">{{ field.help_text }}</div>
+        </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ form.non_field_errors.0 }}
+        </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-end">
+            <input class="btn btn-success" type="submit" value="Войти">
+        </div>
     </form>
 </main>
 {% endblock %}
