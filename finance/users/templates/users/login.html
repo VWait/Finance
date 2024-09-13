@@ -34,7 +34,8 @@
         {% endif %}
 
         <div class="d-flex justify-content-end">
-            <input class="btn btn-success" type="submit" value="Войти">
+            <input class="btn btn-success" type="submit"
+                   value="{% if path_name == 'login' %}Войти{% else %}Зарегистрироваться{% endif %}">
         </div>
     </form>
 </main>

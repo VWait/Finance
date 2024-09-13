@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="d-flex flex-column flex-md-row flex-lg-row flex-xl-row flex-xxl-row" style="margin: 10px;">
+    <ul class="nav nav-pills d-sm-flex flex-row flex-md-column flex-lg-column flex-xl-column flex-xxl-column">
+        <li class="nav-item d-flex flex-grow-1 justify-content-center flex-md-grow-0 flex-lg-grow-0 flex-xl-grow-0 flex-xxl-grow-0">
+            <a class="nav-link {% if path_name == 'notes' %}active {% endif %}d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start"
+               href="{% url 'notes' %}" style="width: 107px;">Операции</a></li>
+        <li class="nav-item d-flex flex-grow-1 justify-content-center flex-md-grow-0 flex-lg-grow-0 flex-xl-grow-0 flex-xxl-grow-0">
+            <a class="nav-link {% if path_name == 'categories' %}active {% endif %}d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start"
+               href="{% url 'categories' %}" style="width: 107px;">Категории</a></li>
+        <li class="nav-item d-flex flex-grow-1 justify-content-center flex-md-grow-0 flex-lg-grow-0 flex-xl-grow-0 flex-xxl-grow-0">
+            <a class="nav-link {% if path_name == 'accounts' %}active {% endif %}d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start"
+               href="{% url 'accounts' %}" style="width: 107px;">Счета</a></li>
+    </ul>
+    {% block content %}
+    {% endblock %}
+</div>
+{% endblock %}

@@ -12,7 +12,52 @@
 <body>
 
 {% block header %}
-<header></header>
+<header>
+    <nav class="navbar navbar-light navbar-expand-md">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Finance</a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
+                <span class="visually-hidden">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'notes' %}">Дневник</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">План</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Статистика</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" style="margin-left: auto;">
+                    <li class="nav-item"></li>
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle nav-link" aria-expanded="false"
+                           data-bs-toggle="dropdown" href="#">v.novikov</a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item disabled" href="#">Профиль</a>
+                            <a class="dropdown-item link-danger" href="{% url 'logout' %}">Выйти</a>
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav" style="margin-left: auto;">
+                    <li class="nav-item" style="padding-right: auto;">
+                        <a class="nav-link" href="{% url 'register' %}">Зарегистрироваться</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Войти</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</header>
 {% endblock %}
 
 {% block main %}
