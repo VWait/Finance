@@ -1,6 +1,6 @@
 from django.views.generic import FormView
 
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
@@ -12,7 +12,7 @@ class Login(LoginView):
     template_name = 'users/login.html'
 
     def get_success_url(self):
-        return self.request.GET.get('next', reverse('notes'))
+        return self.request.GET.get('next', reverse_lazy('notes'))
 
     def get_context_data(self, **kwargs):
         return super().get_context_data() | {'path_name': 'login'}
@@ -22,8 +22,11 @@ class Register(FormView):
     template_name = 'users/login.html'
     form_class = UserCreationForm
 
+    def form_invalid(self, form):
+        print(form)
+
     def get_success_url(self):
-        return self.request.GET.get('next', reverse('notes'))
+        return self.request.GET.get('next', reverse_lazy('notes'))
 
     def get_context_data(self, **kwargs):
         return super().get_context_data() | {'path_name': 'register'}
@@ -36,4 +39,4 @@ class Register(FormView):
 
 class Logout(LogoutView):
     def get_success_url(self):
-        return reverse('login')
+        return reverse_lazy('login')

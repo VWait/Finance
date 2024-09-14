@@ -22,18 +22,27 @@
                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
                         </svg>
                     </button>
-                    <button class="btn btn-outline-secondary" type="button"
-                            style="margin-left: 5px;padding: 8px;font-size: 0px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
-                             viewBox="0 0 16 16" class="bi bi-trash-fill" style="font-size: 10px;">
-                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
-                        </svg>
-                    </button>
+                    <form method="post" action="{% url 'category-delete' category.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-secondary" type="submit"
+                                style="margin-left: 5px;padding: 8px;font-size: 0px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                 viewBox="0 0 16 16" class="bi bi-trash-fill" style="font-size: 10px;">
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
                 <form class="d-none d-lg-none d-flex d-lg-flex flex-row align-items-center align-items-lg-center align-items-xl-end"
                       style="padding: 3px;border-bottom: 1px solid var(--bs-gray-300);margin-bottom: 5px;padding-top: 0px;"
-                      id="{{ category_type.name }}-form-{{ category.id }}">
-                    <input class="form-control form-control-sm" type="text" value="{{ category }}">
+                      id="{{ category_type.name }}-form-{{ category.id }}" method="post"
+                      action="{% url 'category-update' category.id %}">
+                    {% csrf_token %}
+                    {% for field in category.form %}
+                    <input class="form-control form-control-sm" type="{{ field.field.widget.input_type }}"
+                           value="{{ field.value }}" id="{{ field.id_for_label }}" name="{{ field.html_name }}"
+                           required>
+                    {% endfor %}
                     <button class="btn btn-outline-secondary" type="button"
                             style="margin-left: 5px;padding: 2px;font-size: 0px;"
                             onclick="cancelEdit('{{ category_type.name }}', {{ category.id }})">
@@ -42,7 +51,7 @@
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
                         </svg>
                     </button>
-                    <button class="btn btn-outline-secondary" type="button"
+                    <button class="btn btn-outline-secondary" type="submit"
                             style="margin-left: 5px;padding: 2px;font-size: 0px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
                              viewBox="0 0 16 16" class="bi bi-check" style="font-size: 22px;">
@@ -52,23 +61,30 @@
                 </form>
                 {% endfor %}
                 <div><a class="btn btn-primary btn-sm d-grid" data-bs-toggle="collapse" aria-expanded="false"
-                        aria-controls="{{ category_type.name }}-collapse" href="#{{ category_type.name }}-collapse" role="button"
+                        aria-controls="{{ category_type.name }}-collapse" href="#{{ category_type.name }}-collapse"
+                        role="button"
                         style="margin-top: 10px;font-size: 14px;">Добавить</a>
                     <div class="collapse" id="{{ category_type.name }}-collapse">
                         <form class="d-flex d-lg-flex flex-row align-items-center justify-content-lg-end align-items-lg-center"
-                              style="padding-top: 10px;"><input class="form-control form-control-sm"
-                                                                type="text">
+                              style="padding-top: 10px;" method="post" action="{% url 'category-create' category_type.name %}">
+                            {% csrf_token %}
+                            {% for field in category_type.form %}
+                            <input class="form-control form-control-sm" type="{{ field.field.widget.input_type }}"
+                                   id="{{ field.id_for_label }}" name="{{ field.html_name }}"
+                                   required>
+                            {% endfor %}
                             <a class="btn btn-outline-secondary"
                                style="margin-left: 5px;padding: 2px;font-size: 0px;"
                                data-bs-toggle="collapse" aria-expanded="false"
-                               aria-controls="{{ category_type.name }}-collapse" href="#{{ category_type.name }}-collapse" role="button">
+                               aria-controls="{{ category_type.name }}-collapse"
+                               href="#{{ category_type.name }}-collapse" role="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                      fill="currentColor" viewBox="0 0 16 16" class="bi bi-x"
                                      style="font-size: 22px;font-weight: bold;">
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
                                 </svg>
                             </a>
-                            <button class="btn btn-outline-secondary" type="button"
+                            <button class="btn btn-outline-secondary" type="submit"
                                     style="margin-left: 5px;padding: 2px;font-size: 0px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                      fill="currentColor" viewBox="0 0 16 16" class="bi bi-check"
