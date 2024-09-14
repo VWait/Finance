@@ -18,10 +18,11 @@ class Categories(TemplateView):
     template_name = 'logs/categories.html'
 
     def get_context_data(self, **kwargs):
-        print(Category.get_group_category(self.request.user))
-        return (super().get_context_data() |
-                Category.get_group_category(self.request.user) |
-                {'path_name': 'categories'})
+        context = {
+            'path_name': 'categories',
+            'content': Category.get_grouped_categories(self.request.user)
+        }
+        return super().get_context_data() | context
 
 
 @method_decorator(login_required, name='get')
