@@ -22,9 +22,6 @@ class Register(FormView):
     template_name = 'users/login.html'
     form_class = UserCreationForm
 
-    def form_invalid(self, form):
-        print(form)
-
     def get_success_url(self):
         return self.request.GET.get('next', reverse_lazy('notes'))
 
